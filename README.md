@@ -1,3 +1,0 @@
-parallel_computing
-==================
-test
