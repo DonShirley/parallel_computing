@@ -23,22 +23,30 @@ int main(int argc, char **argv)
 	//Following could be used for more than one run in one single program execution
 	//int input[argc - 1];
 
-	//Is a register version even possible?
-	//register int prefix_sums[argc - 1];
-
 	int prefix_sums[argc - 1];
 
-	for(int i = 1; i < argc; i++)
+//	for(int i = 1; i < argc; i++)
+//	{
+//		if(i != 1)
+//		{
+//			prefix_sums[i] = (atoi(*(argv + i)) + prefix_sums[i - 1]);
+//		}
+//		else
+//		{
+//			prefix_sums[i] = atoi(*(argv + i));
+//		}
+//		(void) fprintf(stdout, "%i ", prefix_sums[i]);
+//	}
+
+	prefix_sums[0] = atoi(*(argv + 1));
+	register int sum = prefix_sums[0];
+	(void) fprintf(stdout, "%i ", sum);
+
+	for(int i = 2; i < argc; i++)
 	{
-		if(i != 1)
-		{
-			prefix_sums[i] = (atoi(*(argv + i)) + prefix_sums[i - 1]);
-		}
-		else
-		{
-			prefix_sums[i] = atoi(*(argv + i));
-		}
-		(void) fprintf(stdout, "%i ", prefix_sums[i]);
+		sum += atoi(*(argv + i));
+		prefix_sums[i] = sum; // nonsense !?
+		(void) fprintf(stdout, "%i ", sum);
 	}
 
 	return EXIT_SUCCESS;

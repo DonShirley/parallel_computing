@@ -14,7 +14,7 @@
 
 int argcounter;
 
-void prefix_sums(int sum, char **argv)
+void prefix_sums(register int sum, char **argv)
 {
 	static int counter = 0;
 
@@ -40,8 +40,6 @@ int main(int argc, char **argv)
 	argcounter = argc;
 	//Following could be used for more than one run in one single program execution
 	//int input[argc - 1];
-	//Is a register version even possible?
-	//register int prefix_sums[argc - 1];
 
 	prefix_sums(0, argv);
 
