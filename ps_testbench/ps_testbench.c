@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 			(void) fprintf(output_file, "%i ", (int)(random()%max_int));
 		}
 		fclose(output_file);
-//		system(command);
+		system(command);
 	}
 
 

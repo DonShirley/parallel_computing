@@ -36,16 +36,15 @@ int main(int argc, char **argv)
 	fscanf (input_file, "%i", &j);
 	while (!feof (input_file))
 	{
+		if(m == n)
+		{
+			break;
+		}
 		prefix_sums[m] = j;
 		fscanf (input_file, "%i", &j);
 		m++;
 	}
 	fclose (input_file);
-
-//	for(int i = 0; i < n; i++)
-//	{
-//		prefix_sums[i] = atoi(*(argv + i + 1));
-//	}
 
 	(void) fprintf(stdout, "max_threads: \t%i\n", omp_get_max_threads());
 
