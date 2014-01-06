@@ -11,43 +11,71 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <omp.h>
 
 int main(int argc, char **argv)
 {
 	if((argc < 2) || (strcmp("-help", *(argv + 1)) == 0))
 	{
-		(void) fprintf(stderr,"Usage: prefix_sum_sequential -help | {integer }*\n");
+		(void) fprintf(stderr,"Usage: prefix_sum_sequential -help | integer_count*\n");
 		return EXIT_FAILURE;
 	}
 
-	//Following could be used for more than one run in one single program execution
-	//int input[argc - 1];
+	int k, kk;
+	int n = atoi(*(argv+1));
+	int prefix_sums[n];
+	double time1, time2;
 
-	int prefix_sums[argc - 1];
+	k = 0;
+	kk = 0;
 
-//	for(int i = 1; i < argc; i++)
-//	{
-//		if(i != 1)
-//		{
-//			prefix_sums[i] = (atoi(*(argv + i)) + prefix_sums[i - 1]);
-//		}
-//		else
-//		{
-//			prefix_sums[i] = atoi(*(argv + i));
-//		}
-//		(void) fprintf(stdout, "%i ", prefix_sums[i]);
-//	}
+	FILE* input_file = fopen ("test", "r");
+	int j = 0;
+	int m = 0;
 
-	prefix_sums[0] = atoi(*(argv + 1));
-	register int sum = prefix_sums[0];
-	(void) fprintf(stdout, "%i ", sum);
-
-	for(int i = 2; i < argc; i++)
+	fscanf (input_file, "%i", &j);
+	while (!feof (input_file))
 	{
-		sum += atoi(*(argv + i));
-		prefix_sums[i] = sum; // nonsense !?
-		(void) fprintf(stdout, "%i ", sum);
+		if(m == n)
+		{
+			break;
+		}
+		prefix_sums[m] = j;
+		(void) fscanf (input_file, "%i", &j);
+		m++;
+	}
+	fclose (input_file);
+
+	fprintf(stdout, "max_threads: \t%i\n", omp_get_max_threads());
+
+	time1 =  omp_get_wtime();
+
+	for(k = 1; k < n; k = kk)
+	{
+		kk = k<<1;
+		for(int i = kk-1; i < n; i+=kk)
+		{
+			prefix_sums[i] = prefix_sums[i-k] + prefix_sums[i];
+		}
 	}
 
+	for(k = k>>1; k > 1; k = kk)
+	{
+		kk = k>>1;
+		for(int i = k-1; i < (n-kk); i+=k)
+		{
+			prefix_sums[i+kk] = prefix_sums[i] + prefix_sums[i+kk];
+		}
+	}
+
+	time2 = omp_get_wtime();
+
+	(void) fprintf(stdout, "time: \t\t%f\n", (time2-time1));
+
+//	for(int i = 0; i < n; i++)
+//	{
+//		(void) fprintf(stdout, "%i ", prefix_sums[i]);
+//	}
+//	(void) fprintf(stdout, "\n");
 	return EXIT_SUCCESS;
 }

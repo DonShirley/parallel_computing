@@ -54,7 +54,7 @@ int main(int argc, char **argv)
 	{
 		kk = k<<1;
 
-//		#pragma omp parallel for
+		#pragma omp parallel for
 		for(int i = kk-1; i < n; i+=kk)
 		{
 			prefix_sums[i] = prefix_sums[i-k] + prefix_sums[i];
@@ -64,7 +64,7 @@ int main(int argc, char **argv)
 	for(k = k>>1; k > 1; k = kk)
 	{
 		kk = k>>1;
-//		#pragma omp parallel for
+		#pragma omp parallel for
 		for(int i = k-1; i < (n-kk); i+=k)
 		{
 			prefix_sums[i+kk] = prefix_sums[i] + prefix_sums[i+kk];
