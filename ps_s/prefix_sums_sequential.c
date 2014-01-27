@@ -1,6 +1,6 @@
 /*
  ============================================================================
- Name        : prefix_sums_sequential.c
+ Name        : p_s.c
  Author      : Adrian Kempf
  Version     :
  Copyright   :

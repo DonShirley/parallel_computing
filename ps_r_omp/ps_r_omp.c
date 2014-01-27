@@ -20,6 +20,7 @@ void ps(register int size, int n[])
 		 return;
 	 }
 	 int y[size/2];
+	 
 	 #pragma omp parallel for
 	 for(int i = 0; i < size/2; i++)
 	 {
@@ -29,6 +30,7 @@ void ps(register int size, int n[])
 	 ps(size/2, y);
 
 	 n[1] = y[0];
+
 	 #pragma omp parallel for
 	 for(int i = 1; i < size/2; i++)
 	 {
