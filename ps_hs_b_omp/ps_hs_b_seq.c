@@ -28,6 +28,7 @@ int main(int argc, char **argv)
 
 	int n = atoi(*(argv+1));
 	int* prefix_sums = (int*)malloc(n*sizeof(int));
+	int* prefix_sums_work = (int*)malloc(n*sizeof(int));
 	double time1, time2;
 
 	FILE* input_file = fopen ("test", "r");
@@ -41,6 +42,7 @@ int main(int argc, char **argv)
 			break;
 		}
 		prefix_sums[m] = j;
+		prefix_sums_work[m] = j;
 		fscanf (input_file, "%i", &j);
 		m++;
 	}
@@ -56,7 +58,7 @@ int main(int argc, char **argv)
 		
 	int* b_array = NULL; 
 	fprintf(stdout, "%d\n", as);		
-	#pragma omp parallel for	
+//	#pragma omp parallel for	
 	for(int b = 0; b < n; b += as)
 	{
 		int* temp = NULL;
@@ -81,12 +83,12 @@ int main(int argc, char **argv)
 		for(int k = 1; k < length; k <<= 1)
 		{
 			k_counter++;
-			#pragma omp parallel for //try with and without this
+//			#pragma omp parallel for //try with and without this
 			for(int i = 0; i < k; i++)
 			{
 				prefix_sums_temp[i] = partial_ps_sums[i];
 			}
-			#pragma omp parallel for //try with and without this
+//			#pragma omp parallel for //try with and without this
 			for(int i = k; i < length; i++)
 			{
 				prefix_sums_temp[i] = partial_ps_sums[i-k] + partial_ps_sums[i];
@@ -130,7 +132,7 @@ int main(int argc, char **argv)
 	}
 	int add = 0;
 	/* Calculate final prefix sums as combination of single blocks */
-//	#pragma omp parallel for
+	//parallized TODO
 	for(int b = as; b < n; b += as)
 	{
 		int length = 0;

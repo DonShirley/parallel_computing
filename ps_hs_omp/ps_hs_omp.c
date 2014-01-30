@@ -50,10 +50,12 @@ int main(int argc, char **argv)
 	int* temp = NULL;
 	for(int k = 1; k < n; k <<= 1)
 	{
+		#pragma omp parallel for
 		for(int i = 0; i < k; i++)
 		{
 			prefix_sums_temp[i] = prefix_sums[i];
 		}
+		#pragma omp parallel for
 		for(int i = k; i < n; i++)
 		{
 			prefix_sums_temp[i] = prefix_sums[i-k] + prefix_sums[i];
@@ -61,14 +63,16 @@ int main(int argc, char **argv)
 		temp = prefix_sums;
 		prefix_sums = prefix_sums_temp;
 		prefix_sums_temp = temp;
+		fprintf(stdout, "K:%d\n", k);
 	}
-	prefix_sums = prefix_sums_temp;
 	time2 = omp_get_wtime();
 	(void) fprintf(stdout, "time: \t\t%f\n", (time2-time1));
 
-	for(int i = 0; i < n; i++)
-	{
-		(void) fprintf(stdout, "%i ", prefix_sums[i]);
-	}
+//	for(int i = 0; i < n; i++)
+//	{
+//		(void) fprintf(stdout, "%i ", prefix_sums[i]);
+//	}
+//	(void) fprintf(stdout,"\n");
+
 	return EXIT_SUCCESS;
 }

@@ -72,10 +72,10 @@ int main(int argc, char **argv)
 
 	(void) fprintf(stdout, "time: \t\t%f\n", (time2-time1));
 
-//	for(int i = 0; i < n; i++)
-//	{
-//		(void) fprintf(stdout, "%i ", prefix_sums[i]);
-//	}
-//	(void) fprintf(stdout, "\n");
+	for(int i = 0; i < n; i++)
+	{
+		(void) fprintf(stdout, "%i ", prefix_sums[i]);
+	}
+	(void) fprintf(stdout, "\n");
 	return EXIT_SUCCESS;
 }

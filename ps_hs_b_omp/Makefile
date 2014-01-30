@@ -1,15 +1,12 @@
 ## MAKEFILE ##
 
 CC = gcc
-CFLAGS = -fopenmp -std=gnu99 -pedantic -Wall -g
+CFLAGS = -fopenmp -std=gnu99 -pedantic -Wall -g -lm
 OPT = -O0
 
-all:ps_r
-
-ps_s_r:ps_r
-	$(CC) $(CFLAGS) -o ps_r $(OPT) ps_r.c
+all: ps_hs_b_omp.o
+	$(CC) -o ps_hs_b_omp ps_hs_b_omp.c $(OPT) $(CFLAGS)
 
 clean:
-	rm -f *.o * ps_s_r
-
+	rm -f *.o * ps_hs_b_omp
 
